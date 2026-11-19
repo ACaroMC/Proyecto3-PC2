@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+coverage/
+.vercel/
+.npm-cache/
+.tools/
+next-env.d.ts
+*.tsbuildinfo
+*.log
+.env*
+!.env.example
+supabase/.branches/
+supabase/.temp/
