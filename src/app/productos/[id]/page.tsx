@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { Foto, fotoProducto } from '@/components/foto';
 import { datos, obtenerPuesto, soles, type Producto } from '@/lib/datos';
 import { publicClient } from '@/lib/supabase';
 import { idPublico } from '@/lib/validacion';
@@ -26,6 +27,7 @@ export default async function DetalleProducto({ params }: PageProps<'/productos/
       <p className="price">{soles.format(producto.precio)}</p>
       <span className={'tag ' + (producto.disponible ? 'verified' : 'unavailable')}>{producto.disponible ? 'Disponible' : 'Agotado'}</span>
       <Link href={'/puestos/' + puesto.id}>{puesto.nombre}</Link>
+      <Foto imagen={fotoProducto(producto.nombre, producto.presentacion)} formato="detalle" />
       <dl className="grid fields"><div><dt>Procedencia declarada</dt><dd>{producto.procedencia ?? 'No declarada'}</dd></div>
         <div><dt>Calidad declarada</dt><dd>{producto.calidad === 'estandar' ? 'Estándar' : producto.calidad ?? 'No declarada'}</dd></div></dl>
       {planta && <Link href={'/plantas/' + planta.id}>Ver ficha de {planta.nombre}</Link>}

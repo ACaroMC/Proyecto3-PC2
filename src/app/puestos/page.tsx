@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Foto, fotoPuesto } from '@/components/foto';
 import { MapaPuestos } from '@/components/mapa';
 import { obtenerPuestos } from '@/lib/datos';
 import { busqueda } from '@/lib/validacion';
@@ -26,6 +27,7 @@ export default async function Directorio({ searchParams }: PageProps<'/puestos'>
     {resultados.length ? <>
       <p className="muted" role="status">{resultados.length} {resultados.length === 1 ? 'puesto' : 'puestos'}</p>
       <div className="grid cards">{resultados.map((puesto) => <article className="surface stack" key={puesto.id}>
+        <Foto imagen={fotoPuesto} />
         <span className="tag">{puesto.distrito}</span>
         <h2><Link href={'/puestos/' + puesto.id}>{puesto.nombre}</Link></h2>
         {puesto.verificado && <span className="tag verified">Verificado</span>}

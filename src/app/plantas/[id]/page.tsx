@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { Foto, fotoPlanta } from '@/components/foto';
 import { datos, type Planta } from '@/lib/datos';
 import { publicClient } from '@/lib/supabase';
 import { idPublico } from '@/lib/validacion';
@@ -15,6 +16,7 @@ export default async function FichaPlanta({ params }: PageProps<'/plantas/[id]'>
     <Link href="/plantas">Volver a las fichas</Link>
     <header className="page-heading"><h1>{planta.nombre}</h1><p><i>{planta.cientifico}</i></p></header>
     <p className="notice">Esta información es referencial y no reemplaza una consulta médica.</p>
+    <Foto imagen={fotoPlanta(planta.cientifico)} formato="detalle" />
     <div className="surface stack">
       <section><h2>Usos tradicionales</h2><p>{planta.usos}</p></section>
       <section><h2>Preparación tradicional</h2><p>{planta.preparacion}</p></section>
