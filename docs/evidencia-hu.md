@@ -12,3 +12,4 @@ La columna de evidencia señala el código o la prueba que cubre cada historia. 
 | HU-06 | Inicio, cierre y panel por rol | `/ingresar`, `/panel` y Vitest |
 | HU-07 | RLS y permisos por rol | Migración inicial y ensayo SQL |
 | HU-08 | Alta/edición del puesto | `/panel/hierbero`, Vitest y RLS |
+| HU-10 | Filtros del directorio | `/puestos` y exclusión SQL de suspendidos |
