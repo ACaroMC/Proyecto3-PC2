@@ -18,5 +18,6 @@ La columna de evidencia señala el código o la prueba que cubre cada historia. 
 | HU-14 | Cambio de precio y stock | Ensayo SQL hierbero → comprador |
 | HU-15 | Búsqueda parametrizada | RPC `buscar_ofertas`, SQL y Vitest |
 | HU-16 | Comparación en soles | `/productos` y prueba SQL de orden |
+| HU-18 | Alta y edición de fichas | Panel de administración, Vitest y políticas SQL |
 | HU-22 | Procedencia y calidad | Validación Zod, Vitest y restricción SQL |
 | HU-23 | Declaración pública | `/productos/[id]` y exclusión de suspendidos |
