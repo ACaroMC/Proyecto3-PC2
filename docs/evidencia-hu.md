@@ -11,3 +11,4 @@ La columna de evidencia señala el código o la prueba que cubre cada historia. 
 | HU-05 | Registro comprador o hierbero | `/registro`, Vitest y trigger probado en SQL |
 | HU-06 | Inicio, cierre y panel por rol | `/ingresar`, `/panel` y Vitest |
 | HU-07 | RLS y permisos por rol | Migración inicial y ensayo SQL |
+| HU-08 | Alta/edición del puesto | `/panel/hierbero`, Vitest y RLS |
