@@ -17,7 +17,9 @@ if (-not (Test-Path .env.local)) { Copy-Item .env.example .env.local }
 npm.cmd run dev
 ```
 
-Si ya tienes `.env.local`, conserva el archivo. Configura en él la API URL y la clave publicable del proyecto de pruebas que usarás. La aplicación se abre en `http://localhost:3000`. La inicialización local aplica las migraciones y carga `supabase/seed.sql`, con dos ofertas comparables de manzanilla. Las cuentas ficticias de esa semilla carecen de contraseña. Para un ensayo con la interfaz, registra un hierbero y un comprador propios en el entorno de pruebas.
+Si ya tienes `.env.local`, conserva el archivo. Configura en él la API URL y la clave publicable del proyecto de pruebas que usarás. La aplicación se abre en `http://localhost:3000`. La inicialización local aplica las migraciones y carga `supabase/seed.sql`. Los dos puestos públicos de demostración muestran 11 ofertas cada uno, con cuatro agotadas en total. Puedes buscar `Muña` y comparar `Hierbaluisa` en `/productos`. Las cuentas ficticias de la semilla carecen de contraseña. Para un ensayo con la interfaz, registra un hierbero y un comprador propios en el entorno de pruebas.
+
+Para cargar de nuevo el seed en una base local ya migrada, ejecuta `psql -X -h 127.0.0.1 -p 54322 -U postgres -d postgres -v ON_ERROR_STOP=1 --single-transaction -f supabase/seed.sql`. Las ofertas usan identificadores fijos y conservan los datos ya guardados.
 
 En Supabase alojado, configura **Auth → URL Configuration** con el dominio que usarás y agrega `https://<dominio>/auth/confirm` a las URL permitidas para confirmar por correo. Para confirmar desde otro navegador, el correo puede usar el enlace `{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}` con el dominio configurado como Site URL.
 

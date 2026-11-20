@@ -18,8 +18,22 @@ set local role anon;
 do $$
 begin
   if (select count(id) from public.puestos) <> 2 then raise exception 'La consulta pública debe excluir suspendidos'; end if;
-  if (select array_agg(precio) from public.buscar_ofertas('manzanilla', 'Manzanilla')) <> array[7.50, 10.00] then
-    raise exception 'Las ofertas activas deben salir de menor a mayor precio';
+  if (select count(*) from public.productos where puesto_id = '20000000-0000-4000-8000-000000000001') <> 11
+    or (select count(*) from public.productos where puesto_id = '20000000-0000-4000-8000-000000000002') <> 11 then
+    raise exception 'Cada catálogo público de demostración debe mostrar 11 ofertas';
+  end if;
+  if (select count(*) from public.buscar_ofertas() where not disponible) <> 4 then
+    raise exception 'La lista pública debe mostrar las ofertas agotadas';
+  end if;
+  if (select array_agg(nombre) from public.buscar_ofertas('muña')) is distinct from array['Muña'] then
+    raise exception 'La búsqueda debe encontrar la muña';
+  end if;
+  if (select array_agg(precio) from public.buscar_ofertas('manzanilla', 'Manzanilla')) is distinct from array[7.50, 10.00, 12.00] then
+    raise exception 'La comparación de manzanilla debe ordenar las ofertas de los puestos públicos por precio';
+  end if;
+  if (select array_agg(precio) from public.buscar_ofertas('', 'Hierbaluisa')) is distinct from array[6.50, 8.90]
+    or (select count(distinct puesto_id) from public.buscar_ofertas('', 'Hierbaluisa')) <> 2 then
+    raise exception 'La comparación de hierbaluisa debe mostrar dos precios de distintos puestos';
   end if;
   if (select count(*) from public.buscar_ofertas('manzanilla''; --', null)) <> 0 then raise exception 'La búsqueda debe tratar la entrada como texto'; end if;
   if (select count(id) from public.plantas) <> 1 then raise exception 'El borrador es visible'; end if;
@@ -42,7 +56,10 @@ set local request.jwt.claim.sub = '10000000-0000-4000-8000-000000000001';
 do $$
 declare n integer;
 begin
-  if (select count(*) from public.productos) <> 1 then raise exception 'El hierbero debe ver solo su catálogo con sesión'; end if;
+  if (select count(*) from public.productos) <> 11
+    or exists (select 1 from public.productos where puesto_id <> public.mi_puesto_id()) then
+    raise exception 'El hierbero debe ver solo su catálogo con sesión';
+  end if;
   update public.productos set precio = 8.75, disponible = false where id = '40000000-0000-4000-8000-000000000001';
   get diagnostics n = row_count;
   if n <> 1 then raise exception 'El hierbero no pudo actualizar su producto'; end if;
@@ -125,7 +142,7 @@ reset role;
 set local role anon;
 do $$
 begin
-  if (select count(*) from public.buscar_ofertas('manzanilla')) <> 1 then raise exception 'Una oferta suspendida quedó visible'; end if;
+  if (select count(*) from public.buscar_ofertas('manzanilla')) <> 2 then raise exception 'Una oferta suspendida quedó visible'; end if;
   if (select count(id) from public.resenas) <> 0 then raise exception 'Una reseña moderada quedó visible'; end if;
 end;
 $$;
