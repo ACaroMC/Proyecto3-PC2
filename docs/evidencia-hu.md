@@ -29,3 +29,4 @@ La columna de evidencia señala el código o la prueba que cubre cada historia. 
 | HU-23 | Declaración pública | `/productos/[id]` y exclusión de suspendidos |
 | HU-24 | Verificación y revocación | Panel, RPC y prueba de autoverificación denegada |
 | HU-25 | Reseña y promedio | Ficha del puesto, Vitest y ensayo SQL |
+| HU-26 | Moderación | Panel y prueba SQL de acceso y ocultamiento |
