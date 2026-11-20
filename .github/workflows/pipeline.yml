@@ -27,6 +27,19 @@ jobs:
   seguridad:
     needs: ci
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: pruebas_rls
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
@@ -43,22 +56,31 @@ jobs:
           echo "79a3ab579b53f71efd634f3aaf7e04a0fa0cf206b7ed434638d1547a2470a66e  $RUNNER_TEMP/gitleaks.tar.gz" | sha256sum --check
           tar -xzf "$RUNNER_TEMP/gitleaks.tar.gz" -C "$RUNNER_TEMP" gitleaks
           "$RUNNER_TEMP/gitleaks" git --redact --log-opts="--all" .
-      - name: Auditar dependencias de producción
-        run: npm audit --omit=dev --audit-level=high
+      - name: Auditar dependencias
+        run: npm audit --audit-level=high
+      - name: Probar políticas RLS en PostgreSQL aislado
+        env:
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
+          PGPASSWORD: postgres
+          PGDATABASE: pruebas_rls
+        run: |
+          psql -X -v ON_ERROR_STOP=1 -f supabase/tests/bootstrap.sql
+          for migration in supabase/migrations/*.sql; do
+            psql -X -v ON_ERROR_STOP=1 -f "$migration"
+          done
+          psql -X -v ON_ERROR_STOP=1 -f supabase/seed.sql -f supabase/tests/rls.sql
 
   deploy:
     needs: seguridad
     if: >-
       github.event_name != 'pull_request' &&
-      ((github.ref == 'refs/heads/main' && vars.DEPLOY_PRODUCTION == 'true') ||
-       (github.ref == 'refs/heads/develop' && vars.DEPLOY_PREVIEW == 'true'))
+      github.ref == 'refs/heads/main' && vars.DEPLOY_PRODUCTION == 'true'
     runs-on: ubuntu-latest
-    environment: ${{ github.ref_name == 'main' && 'production' || 'preview' }}
+    environment: production
     concurrency:
-      group: deploy-${{ github.ref_name }}
+      group: deploy-production
       cancel-in-progress: false
-    env:
-      VERCEL_ENV: ${{ github.ref_name == 'main' && 'production' || 'preview' }}
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
@@ -74,8 +96,8 @@ jobs:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
-          npx --no-install vercel pull --yes --environment="$VERCEL_ENV" --token="$VERCEL_TOKEN"
-          npx --no-install vercel build --environment="$VERCEL_ENV" --token="$VERCEL_TOKEN"
+          npx --yes vercel@65.17.0 pull --yes --environment=production --token="$VERCEL_TOKEN"
+          npx --yes vercel@65.17.0 build --prod --token="$VERCEL_TOKEN"
       - name: Aplicar migraciones de Supabase
         if: hashFiles('supabase/migrations/*.sql') != ''
         env:
@@ -90,9 +112,8 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: npx --no-install vercel deploy --prebuilt --environment="$VERCEL_ENV" --token="$VERCEL_TOKEN"
+        run: npx --yes vercel@65.17.0 deploy --prebuilt --prod --token="$VERCEL_TOKEN"
       - name: Verificar el endpoint público de producción
-        if: github.ref_name == 'main'
         env:
           APP_URL: ${{ vars.APP_URL }}
         run: |

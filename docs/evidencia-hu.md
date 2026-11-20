@@ -6,3 +6,4 @@ La columna de evidencia señala el código o la prueba que cubre cada historia. 
 | --- | --- | --- |
 | HU-01 | Flujo por ramas y PR | [Ramas y PR del repositorio](https://github.com/ACaroMC/Proyecto3-PC2/pulls?q=is%3Apr) |
 | HU-02 | CI desde lockfile | `npm run check` y job `ci` |
+| HU-03 | Gitleaks, auditoría completa y RLS | Job `seguridad` |
