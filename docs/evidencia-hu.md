@@ -15,3 +15,4 @@ La columna de evidencia señala el código o la prueba que cubre cada historia. 
 | HU-10 | Filtros del directorio | `/puestos` y exclusión SQL de suspendidos |
 | HU-11 | Ficha comercial y datos reservados | `/puestos/[id]` y grants SQL por columna |
 | HU-13 | Alta de ofertas y precio válido | Panel, Vitest y RLS |
+| HU-14 | Cambio de precio y stock | Ensayo SQL hierbero → comprador |
