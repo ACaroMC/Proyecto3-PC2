@@ -1,0 +1,325 @@
+"Issue Id","Issue Type","Summary","Description","Parent","Priority","Story Points","Sprint"
+"1","Epic","EP-01: Cuentas, roles y seguridad","Registro, inicio de sesión y control de acceso por rol (comprador, hierbero, administrador) con Supabase Auth y RLS.
+
+Objetivo de negocio: Que cada persona acceda solo a lo que le corresponde y que los datos de hierberos y compradores estén protegidos.","","","",""
+"2","Epic","EP-02: Directorio y mapa de hierberos","Perfiles de hierberos y tiendas naturistas con mercado o feria, dirección, horario, contacto y ubicación en mapa.
+
+Objetivo de negocio: Dar presencia digital a los hierberos y que los compradores sepan dónde encontrarlos.","","","",""
+"3","Epic","EP-03: Catálogo, precios y disponibilidad","Productos de cada hierbero con precio y disponibilidad, más búsqueda y comparación entre puestos.
+
+Objetivo de negocio: Que el comprador compare opciones antes de ir al puesto y que el hierbero muestre lo que vende.","","","",""
+"4","Epic","EP-04: Información de plantas","Fichas de plantas con nombre común y científico, usos tradicionales, preparación y precauciones.
+
+Objetivo de negocio: Ofrecer información clara y confiable sobre el uso de cada planta.","","","",""
+"5","Epic","EP-05: Confianza y calidad","Procedencia y calidad declaradas, verificación de hierberos, reseñas y moderación.
+
+Objetivo de negocio: Reducir la incertidumbre del comprador sobre la procedencia y calidad de los productos.","","","",""
+"6","Epic","EP-06: DevSecOps y plataforma","Repositorio, pipeline CI/CD con controles de seguridad, migraciones y despliegue en Vercel y Supabase.
+
+Objetivo de negocio: Entregar de forma continua, trazable y segura, con evidencia en cada etapa.","","","",""
+"101","Story","HU-01: Como equipo de desarrollo, quiero un repositorio con ramas main y develop protegidas y PR obligatorios, para trabajar de forma ordenada y trazable.","Como equipo de desarrollo, quiero un repositorio con ramas main y develop protegidas y PR obligatorios, para trabajar de forma ordenada y trazable.
+
+Criterios de aceptación:
+1. Flujo por ramas
+   Dado que existe la rama develop, cuando creo la rama hu/HU-XX y abro un PR, entonces el PR queda vinculado a su historia y puede revisarse.
+2. Seguridad: rama protegida
+   Dado que main está protegida, cuando alguien intenta un push directo, entonces GitHub lo rechaza.
+
+Prioridad MoSCoW: Must
+Story points: 3","6","Highest","3","Sprint 1"
+"102","Story","HU-02: Como equipo de desarrollo, quiero un pipeline de CI (lint, tipos, pruebas y build) en GitHub Actions, para detectar errores antes de desplegar.","Como equipo de desarrollo, quiero un pipeline de CI (lint, tipos, pruebas y build) en GitHub Actions, para detectar errores antes de desplegar.
+
+Criterios de aceptación:
+1. Etapas de CI
+   Dado que hago push o PR a develop o main, cuando se ejecuta el pipeline, entonces corren lint, tsc, vitest y build.
+2. Falla temprana
+   Dado que una prueba falla, cuando termina el job ci, entonces el pipeline queda en rojo y no continúa.
+3. Seguridad: mínimo privilegio
+   Dado que el workflow corre en un PR, cuando se asignan permisos al token, entonces solo tiene contents: read.
+
+Prioridad MoSCoW: Must
+Story points: 5","6","Highest","5","Sprint 1"
+"103","Story","HU-03: Como equipo de desarrollo, quiero escaneo de secretos (Gitleaks) y de dependencias (npm audit) en el pipeline, para evitar filtrar claves y usar librerías vulnerables.","Como equipo de desarrollo, quiero escaneo de secretos (Gitleaks) y de dependencias (npm audit) en el pipeline, para evitar filtrar claves y usar librerías vulnerables.
+
+Criterios de aceptación:
+1. Job de seguridad
+   Dado que el job ci terminó en verde, cuando corre el job seguridad, entonces se ejecutan Gitleaks y npm audit.
+2. Seguridad: secreto detectado
+   Dado que un commit contiene una clave, cuando corre Gitleaks, entonces el pipeline falla y no despliega.
+3. Seguridad: dependencia vulnerable
+   Dado que hay una dependencia con vulnerabilidad alta, cuando corre npm audit, entonces el pipeline falla.
+
+Prioridad MoSCoW: Must
+Story points: 3","6","Highest","3","Sprint 2"
+"104","Story","HU-04: Como equipo de desarrollo, quiero despliegue automático a Vercel y migraciones a Supabase, para entregar de forma continua.","Como equipo de desarrollo, quiero despliegue automático a Vercel y migraciones a Supabase, para entregar de forma continua.
+
+Criterios de aceptación:
+1. Deploy a producción
+   Dado que el job ci pasó, cuando hago push a main, entonces la app se despliega en producción en Vercel.
+2. Migraciones
+   Dado que hay migraciones nuevas en supabase/migrations, cuando corre el deploy, entonces se aplican en Supabase antes del despliegue.
+3. Seguridad: secretos
+   Dado que el deploy necesita credenciales, cuando corre el workflow, entonces se leen de GitHub Secrets y no aparecen en el repositorio ni en los logs.
+
+Prioridad MoSCoW: Must
+Story points: 5","6","Highest","5","Sprint 1"
+"105","Story","HU-05: Como visitante, quiero registrarme como comprador o hierbero, para acceder a las funciones de mi rol.","Como visitante, quiero registrarme como comprador o hierbero, para acceder a las funciones de mi rol.
+
+Criterios de aceptación:
+1. Registro exitoso
+   Dado que estoy en el formulario de registro, cuando ingreso correo y contraseña válidos y elijo mi rol, entonces se crea mi cuenta y mi perfil con ese rol.
+2. Correo duplicado
+   Dado que el correo ya está registrado, cuando intento registrarme, entonces veo un mensaje de error y no se crea otra cuenta.
+3. Seguridad: rol no permitido
+   Dado que intento enviar el rol administrador, cuando se procesa el registro, entonces se rechaza y solo se aceptan comprador o hierbero.
+
+Prioridad MoSCoW: Must
+Story points: 5","1","Highest","5","Sprint 1"
+"106","Story","HU-06: Como usuario registrado, quiero iniciar y cerrar sesión, para acceder de forma segura a mi panel.","Como usuario registrado, quiero iniciar y cerrar sesión, para acceder de forma segura a mi panel.
+
+Criterios de aceptación:
+1. Inicio de sesión
+   Dado que tengo una cuenta, cuando ingreso credenciales correctas, entonces accedo a mi panel según mi rol.
+2. Credenciales inválidas
+   Dado que ingreso credenciales incorrectas, cuando envío el formulario, entonces veo un error genérico sin revelar qué dato falló.
+3. Seguridad: ruta privada
+   Dado que no he iniciado sesión, cuando abro una ruta privada, entonces soy redirigido al login.
+
+Prioridad MoSCoW: Must
+Story points: 3","1","Highest","3","Sprint 1"
+"107","Story","HU-07: Como administrador del sistema, quiero RLS y permisos por rol en todas las tablas, para que cada usuario solo vea o modifique lo que le corresponde.","Como administrador del sistema, quiero RLS y permisos por rol en todas las tablas, para que cada usuario solo vea o modifique lo que le corresponde.
+
+Criterios de aceptación:
+1. Datos propios
+   Dado que RLS está activo en todas las tablas, cuando un hierbero consulta sus productos, entonces ve únicamente los suyos.
+2. Seguridad: anónimo sin escritura
+   Dado que soy un usuario anónimo, cuando intento insertar o actualizar datos, entonces la base de datos lo deniega.
+3. Seguridad: comprador sin escritura en catálogo
+   Dado que soy comprador, cuando intento escribir en tablas de hierberos, entonces el acceso es denegado.
+
+Prioridad MoSCoW: Must
+Story points: 5","1","Highest","5","Sprint 1"
+"108","Story","HU-08: Como hierbero, quiero crear el perfil de mi puesto o tienda (nombre, mercado o feria, dirección, horario y contacto), para que los compradores me encuentren.","Como hierbero, quiero crear el perfil de mi puesto o tienda (nombre, mercado o feria, dirección, horario y contacto), para que los compradores me encuentren.
+
+Criterios de aceptación:
+1. Perfil creado
+   Dado que soy hierbero autenticado, cuando completo el formulario con datos válidos, entonces mi perfil se guarda y aparece en el directorio.
+2. Validación
+   Dado que dejo vacío el nombre, cuando envío el formulario, entonces veo un error de validación y no se guarda.
+3. Seguridad: solo hierbero
+   Dado que soy comprador, cuando intento crear un perfil de hierbero, entonces el acceso es denegado.
+
+Prioridad MoSCoW: Must
+Story points: 5","2","Highest","5","Sprint 2"
+"109","Story","HU-09: Como hierbero, quiero marcar la ubicación de mi puesto en un mapa, para que los compradores me ubiquen fácilmente.","Como hierbero, quiero marcar la ubicación de mi puesto en un mapa, para que los compradores me ubiquen fácilmente.
+
+Criterios de aceptación:
+1. Ubicación guardada
+   Dado que edito mi perfil, cuando selecciono un punto en el mapa, entonces se guardan latitud y longitud.
+2. Sin ubicación
+   Dado que no marco ubicación, cuando guardo el perfil, entonces se guarda y se muestra solo la dirección.
+3. Seguridad: perfil ajeno
+   Dado que soy otro hierbero, cuando intento cambiar esa ubicación, entonces el acceso es denegado.
+
+Prioridad MoSCoW: Should
+Story points: 5","2","High","5","Sprint 3"
+"110","Story","HU-10: Como comprador, quiero buscar hierberos y tiendas por distrito o mercado, para encontrar los más cercanos a mí.","Como comprador, quiero buscar hierberos y tiendas por distrito o mercado, para encontrar los más cercanos a mí.
+
+Criterios de aceptación:
+1. Filtro por distrito
+   Dado que existen hierberos en varios distritos, cuando filtro por un distrito, entonces veo solo los de ese distrito.
+2. Sin resultados
+   Dado que no hay coincidencias, cuando realizo la búsqueda, entonces veo el mensaje «sin resultados».
+3. Seguridad: perfil suspendido
+   Dado que un perfil está suspendido, cuando realizo una búsqueda, entonces ese perfil no aparece.
+
+Prioridad MoSCoW: Must
+Story points: 5","2","Highest","5","Sprint 2"
+"111","Story","HU-11: Como comprador, quiero ver el perfil de un hierbero con sus datos y horario, para decidir si lo visito.","Como comprador, quiero ver el perfil de un hierbero con sus datos y horario, para decidir si lo visito.
+
+Criterios de aceptación:
+1. Ver perfil
+   Dado que existe un hierbero activo, cuando abro su perfil, entonces veo nombre, mercado, dirección, horario y contacto.
+2. Perfil inexistente
+   Dado que el perfil no existe, cuando abro su URL, entonces veo una página 404.
+3. Seguridad: datos privados
+   Dado que consulto un perfil, cuando se muestran sus datos, entonces no se expone el correo de la cuenta ni identificadores internos.
+
+Prioridad MoSCoW: Must
+Story points: 3","2","Highest","3","Sprint 2"
+"112","Story","HU-12: Como comprador, quiero ver los hierberos en un mapa, para ubicarlos geográficamente.","Como comprador, quiero ver los hierberos en un mapa, para ubicarlos geográficamente.
+
+Criterios de aceptación:
+1. Marcadores
+   Dado que hay hierberos con ubicación, cuando abro el mapa, entonces veo un marcador por cada uno.
+2. Detalle del marcador
+   Dado que estoy en el mapa, cuando toco un marcador, entonces veo el nombre y un enlace al perfil.
+3. Seguridad: suspendidos
+   Dado que un hierbero está suspendido o sin ubicación, cuando abro el mapa, entonces no aparece.
+
+Prioridad MoSCoW: Should
+Story points: 5","2","High","5","Sprint 3"
+"113","Story","HU-13: Como hierbero, quiero registrar productos (planta o preparado, presentación y precio en soles), para mostrar lo que ofrezco.","Como hierbero, quiero registrar productos (planta o preparado, presentación y precio en soles), para mostrar lo que ofrezco.
+
+Criterios de aceptación:
+1. Producto registrado
+   Dado que tengo perfil de hierbero, cuando registro un producto con nombre, presentación y precio válidos, entonces se guarda en mi catálogo.
+2. Precio inválido
+   Dado que ingreso un precio cero o negativo, cuando envío el formulario, entonces veo un error de validación.
+3. Seguridad: solo hierbero
+   Dado que soy comprador o no tengo perfil de hierbero, cuando intento registrar un producto, entonces el acceso es denegado.
+
+Prioridad MoSCoW: Must
+Story points: 5","3","Highest","5","Sprint 2"
+"114","Story","HU-14: Como hierbero, quiero actualizar el precio y la disponibilidad de mis productos, para que la información esté al día.","Como hierbero, quiero actualizar el precio y la disponibilidad de mis productos, para que la información esté al día.
+
+Criterios de aceptación:
+1. Cambio de precio
+   Dado que tengo un producto publicado, cuando cambio su precio, entonces se actualiza y el comprador ve el nuevo valor.
+2. Producto agotado
+   Dado que tengo un producto publicado, cuando lo marco como agotado, entonces se muestra como no disponible.
+3. Seguridad: producto ajeno
+   Dado que el producto es de otro hierbero, cuando intento actualizarlo, entonces el acceso es denegado.
+
+Prioridad MoSCoW: Must
+Story points: 3","3","Highest","3","Sprint 2"
+"115","Story","HU-15: Como comprador, quiero buscar un producto o planta y ver quién lo ofrece, para encontrar dónde comprarlo.","Como comprador, quiero buscar un producto o planta y ver quién lo ofrece, para encontrar dónde comprarlo.
+
+Criterios de aceptación:
+1. Búsqueda con resultados
+   Dado que escribo «manzanilla», cuando busco, entonces veo los hierberos que la ofrecen con su precio.
+2. Sin coincidencias
+   Dado que no hay productos que coincidan, cuando busco, entonces veo un mensaje informativo.
+3. Seguridad: entrada maliciosa
+   Dado que ingreso caracteres especiales o texto tipo inyección SQL, cuando se procesa la búsqueda, entonces se trata como texto y no altera la consulta.
+
+Prioridad MoSCoW: Must
+Story points: 5","3","Highest","5","Sprint 3"
+"116","Story","HU-16: Como comprador, quiero comparar precios y disponibilidad de un producto entre hierberos, para elegir la mejor opción.","Como comprador, quiero comparar precios y disponibilidad de un producto entre hierberos, para elegir la mejor opción.
+
+Criterios de aceptación:
+1. Comparación
+   Dado que un producto lo ofrecen varios hierberos, cuando abro la comparación, entonces veo cada hierbero con su precio y disponibilidad.
+2. Orden por precio
+   Dado que estoy en la comparación, cuando ordeno por precio, entonces la lista queda de menor a mayor.
+3. Seguridad: suspendidos
+   Dado que un hierbero está suspendido, cuando abro la comparación, entonces sus productos no aparecen.
+
+Prioridad MoSCoW: Must
+Story points: 5","3","Highest","5","Sprint 3"
+"117","Story","HU-17: Como hierbero, quiero editar y eliminar solo mis productos, para mantener mi catálogo ordenado.","Como hierbero, quiero editar y eliminar solo mis productos, para mantener mi catálogo ordenado.
+
+Criterios de aceptación:
+1. Eliminar producto
+   Dado que tengo un producto publicado, cuando lo elimino, entonces desaparece del catálogo.
+2. Seguridad: producto ajeno
+   Dado que el producto es de otro hierbero, cuando intento eliminarlo, entonces el acceso es denegado.
+
+Prioridad MoSCoW: Should
+Story points: 2","3","High","2","Sprint 2"
+"118","Story","HU-18: Como administrador, quiero registrar y editar fichas de plantas (nombre común y científico, usos, preparación y precauciones), para ofrecer información confiable.","Como administrador, quiero registrar y editar fichas de plantas (nombre común y científico, usos, preparación y precauciones), para ofrecer información confiable.
+
+Criterios de aceptación:
+1. Ficha publicada
+   Dado que soy administrador, cuando registro una ficha completa, entonces queda publicada.
+2. Campo obligatorio
+   Dado que falta el campo precauciones, cuando envío el formulario, entonces veo un error de validación.
+3. Seguridad: solo administrador
+   Dado que soy hierbero o comprador, cuando intento editar una ficha, entonces el acceso es denegado.
+
+Prioridad MoSCoW: Must
+Story points: 5","4","Highest","5","Sprint 3"
+"119","Story","HU-19: Como comprador, quiero consultar la ficha de una planta, para conocer su uso tradicional y sus precauciones.","Como comprador, quiero consultar la ficha de una planta, para conocer su uso tradicional y sus precauciones.
+
+Criterios de aceptación:
+1. Ver ficha
+   Dado que existe una ficha publicada, cuando la abro, entonces veo nombre común y científico, usos, preparación y precauciones.
+2. Aviso informativo
+   Dado que estoy en una ficha, cuando la leo, entonces veo el aviso de que es información referencial y no reemplaza una consulta médica.
+3. Seguridad: borrador oculto
+   Dado que la ficha está en borrador, cuando intento consultarla como comprador, entonces no es visible.
+
+Prioridad MoSCoW: Must
+Story points: 3","4","Highest","3","Sprint 4"
+"120","Story","HU-20: Como comprador, quiero buscar plantas por nombre o por dolencia o uso, para encontrar la que necesito.","Como comprador, quiero buscar plantas por nombre o por dolencia o uso, para encontrar la que necesito.
+
+Criterios de aceptación:
+1. Búsqueda por uso
+   Dado que existen fichas con usos registrados, cuando busco «dolor de estómago», entonces veo las plantas relacionadas.
+2. Búsqueda por nombre científico
+   Dado que existe una ficha con ese nombre, cuando lo busco, entonces veo la ficha correspondiente.
+3. Seguridad: texto escapado
+   Dado que ingreso una etiqueta script en la búsqueda, cuando se muestran los resultados, entonces el texto se escapa y no se ejecuta.
+
+Prioridad MoSCoW: Should
+Story points: 5","4","High","5","Sprint 4"
+"121","Story","HU-21: Como hierbero, quiero vincular mis productos a una planta de las fichas, para que el comprador vea la información de uso.","Como hierbero, quiero vincular mis productos a una planta de las fichas, para que el comprador vea la información de uso.
+
+Criterios de aceptación:
+1. Vincular
+   Dado que tengo un producto mío, cuando selecciono una planta, entonces el producto muestra el enlace a la ficha.
+2. Desvincular
+   Dado que mi producto está vinculado, cuando lo desvinculo, entonces el enlace desaparece.
+3. Seguridad: producto ajeno
+   Dado que el producto es de otro hierbero, cuando intento vincularlo, entonces el acceso es denegado.
+
+Prioridad MoSCoW: Should
+Story points: 3","4","High","3","Sprint 4"
+"122","Story","HU-22: Como hierbero, quiero declarar la procedencia y la calidad de cada producto, para dar transparencia al comprador.","Como hierbero, quiero declarar la procedencia y la calidad de cada producto, para dar transparencia al comprador.
+
+Criterios de aceptación:
+1. Declaración guardada
+   Dado que tengo un producto mío, cuando indico procedencia y calidad, entonces se guardan en el producto.
+2. Valor no permitido
+   Dado que elijo una calidad fuera del catálogo permitido, cuando envío el formulario, entonces veo un error de validación.
+3. Seguridad: producto ajeno
+   Dado que el producto es de otro hierbero, cuando intento modificar su procedencia, entonces el acceso es denegado.
+
+Prioridad MoSCoW: Must
+Story points: 3","5","Highest","3","Sprint 3"
+"123","Story","HU-23: Como comprador, quiero ver la procedencia y la calidad declaradas de un producto, para decidir con confianza.","Como comprador, quiero ver la procedencia y la calidad declaradas de un producto, para decidir con confianza.
+
+Criterios de aceptación:
+1. Ver declaración
+   Dado que un producto tiene procedencia y calidad, cuando abro su detalle, entonces las veo.
+2. Sin declaración
+   Dado que un producto no tiene procedencia, cuando abro su detalle, entonces veo «No declarada».
+3. Seguridad: suspendidos
+   Dado que el hierbero está suspendido, cuando abro el detalle del producto, entonces el producto no es visible.
+
+Prioridad MoSCoW: Must
+Story points: 2","5","Highest","2","Sprint 4"
+"124","Story","HU-24: Como administrador, quiero verificar hierberos y mostrar una insignia de verificado, para generar confianza en los compradores.","Como administrador, quiero verificar hierberos y mostrar una insignia de verificado, para generar confianza en los compradores.
+
+Criterios de aceptación:
+1. Verificar
+   Dado que soy administrador, cuando marco a un hierbero como verificado, entonces su perfil muestra la insignia.
+2. Revocar
+   Dado que un hierbero está verificado, cuando revoco la verificación, entonces la insignia desaparece.
+3. Seguridad: autoverificación
+   Dado que soy hierbero, cuando intento verificarme a mí mismo, entonces el acceso es denegado.
+
+Prioridad MoSCoW: Should
+Story points: 5","5","High","5","Sprint 4"
+"125","Story","HU-25: Como comprador, quiero dejar una valoración (1 a 5) y un comentario a un hierbero, para ayudar a otros compradores.","Como comprador, quiero dejar una valoración (1 a 5) y un comentario a un hierbero, para ayudar a otros compradores.
+
+Criterios de aceptación:
+1. Reseña publicada
+   Dado que inicié sesión como comprador, cuando envío una valoración de 1 a 5 y un comentario, entonces se publica y el promedio se actualiza.
+2. Valoración inválida
+   Dado que ingreso una valoración fuera de 1 a 5, cuando envío el formulario, entonces veo un error de validación.
+3. Seguridad: reseña no permitida
+   Dado que no tengo sesión o soy el mismo hierbero, cuando intento reseñar, entonces el acceso es denegado.
+
+Prioridad MoSCoW: Should
+Story points: 5","5","High","5","Sprint 4"
+"126","Story","HU-26: Como administrador, quiero moderar reseñas, para mantener contenido apropiado.","Como administrador, quiero moderar reseñas, para mantener contenido apropiado.
+
+Criterios de aceptación:
+1. Ocultar reseña
+   Dado que existe una reseña ofensiva, cuando la oculto, entonces deja de mostrarse.
+2. Seguridad: solo administrador
+   Dado que soy comprador o hierbero, cuando intento ocultar una reseña ajena, entonces el acceso es denegado.
+
+Prioridad MoSCoW: Could
+Story points: 3","5","Medium","3","Sprint 4"
