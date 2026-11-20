@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Foto, fotoInicio } from '@/components/foto';
 
 export default function Home() {
   return (
@@ -12,10 +13,13 @@ export default function Home() {
             <Link className="button secondary" href="/productos">Comparar precios</Link>
           </div>
         </div>
-        <form className="surface stack hero-search" action="/productos">
-          <label>¿Qué producto buscas?<input type="search" name="q" maxLength={100} placeholder="Manzanilla" /></label>
-          <button className="button primary">Buscar ofertas</button>
-        </form>
+        <div className="stack hero-side">
+          <form className="surface stack hero-search" action="/productos">
+            <label>¿Qué producto buscas?<input type="search" name="q" maxLength={100} placeholder="Manzanilla" /></label>
+            <button className="button primary">Buscar ofertas</button>
+          </form>
+          <Foto imagen={fotoInicio} formato="hero" />
+        </div>
       </section>
       <div className="grid cards home-cards">
         <section className="surface stack"><h2>Directorio</h2><p>Consulta dirección, horario y contacto de cada puesto.</p><Link href="/puestos">Buscar por distrito o mercado</Link></section>

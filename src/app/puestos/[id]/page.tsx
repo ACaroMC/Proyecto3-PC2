@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { publicarResena } from '@/app/actions';
 import { Enviar } from '@/components/enviar';
 import { Estado } from '@/components/estado';
+import { Foto, fotoProducto, fotoPuesto } from '@/components/foto';
 import { MapaPuestos } from '@/components/mapa';
 import { obtenerPuesto, datos, camposResena, soles, fecha, type Producto, type Resena } from '@/lib/datos';
 import { sesion } from '@/lib/sesion';
@@ -28,6 +29,7 @@ export default async function FichaPuesto({ params, searchParams }: PageProps<'/
   return <article className="stack">
     <Link href="/puestos">Volver al directorio</Link>
     <header className="page-heading"><h1>{puesto.nombre}</h1><p>{puesto.mercado} · {puesto.distrito}</p>{puesto.verificado && <span className="tag verified">Verificado</span>}</header>
+    <Foto imagen={fotoPuesto} formato="detalle" />
     <div className="surface stack">
       <h2>Visita el puesto</h2>
       <dl className="grid fields">
@@ -39,6 +41,7 @@ export default async function FichaPuesto({ params, searchParams }: PageProps<'/
     </div>
     <section className="stack"><h2>Catálogo</h2>
       {productos.length ? <div className="grid cards">{productos.map((producto) => <article className="surface stack" key={producto.id}>
+        <Foto imagen={fotoProducto(producto.nombre, producto.presentacion)} />
         <h3><Link href={'/productos/' + producto.id}>{producto.nombre}</Link></h3><p className="muted">{producto.presentacion}</p>
         <p className="price">{soles.format(producto.precio)}</p>
         <span className={'tag ' + (producto.disponible ? 'verified' : 'unavailable')}>{producto.disponible ? 'Disponible' : 'Agotado'}</span>

@@ -50,3 +50,12 @@ El job `seguridad` prueba en PostgreSQL la misma migración de producción con u
 El flujo de revisión es `hu/HU-XX → develop → main`. GitHub Actions valida cada cambio. Para habilitar producción, configura el entorno `production` de GitHub y las variables de Supabase en Vercel. El job `deploy` se habilita desde `main` con `DEPLOY_PRODUCTION=true` en las variables del repositorio. Vercel recibe el resultado después de CI, seguridad y migraciones. La siembra de demostración se reserva para una base de pruebas.
 
 El workflow usa Supabase CLI fijada en el lockfile de la app y una versión fija de Vercel CLI en el job de despliegue. Configura `APP_URL` con el dominio de producción. Más detalles en la [guía de entorno](docs/entorno.md).
+
+## Créditos de las imágenes
+
+Las imágenes se sirven desde `public/images/`. La portada y las dos imágenes referenciales de mercado y hierbas se generaron con IA para Raíz Perú y se optimizaron a WebP.
+
+- `manzanilla-seca.webp` muestra flores secas de manzanilla alemana. Fotografía de Feen, redimensionada y convertida a WebP. Se mantiene su licencia. [Original en Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Camomila-vulgar_seca.jpg) · [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/)
+- `manzanilla-flor.webp` muestra flores de `Matricaria recutita`. Fotografía de Steffen Bauer (SaatPilot), redimensionada y convertida a WebP. [Original en Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Matricaria_recutita_%28German_chamomile%29%2C_flowers%2C_close-up_%28SaatPilot%29.jpg) · [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+
+Las tarjetas ajustan el encuadre al espacio disponible. El directorio identifica las escenas genéricas de mercado como «Imagen referencial». La fotografía de manzanilla seca ilustra el tipo de producto ofrecido.
