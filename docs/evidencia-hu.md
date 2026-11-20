@@ -27,3 +27,4 @@ La columna de evidencia señala el código o la prueba que cubre cada historia. 
 | HU-21 | Vincular y quitar ficha | Formulario, Vitest y RLS |
 | HU-22 | Procedencia y calidad | Validación Zod, Vitest y restricción SQL |
 | HU-23 | Declaración pública | `/productos/[id]` y exclusión de suspendidos |
+| HU-24 | Verificación y revocación | Panel, RPC y prueba de autoverificación denegada |
