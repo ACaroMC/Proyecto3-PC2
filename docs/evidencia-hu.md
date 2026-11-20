@@ -23,5 +23,6 @@ La columna de evidencia señala el código o la prueba que cubre cada historia. 
 | HU-17 | Eliminación de ofertas propias | Panel y bloqueo de producto ajeno en SQL |
 | HU-18 | Alta y edición de fichas | Panel de administración, Vitest y políticas SQL |
 | HU-19 | Aviso y publicación | `/plantas/[id]` y exclusión de borradores en SQL |
+| HU-20 | Búsqueda de fichas | RPC `buscar_plantas` y prueba de entrada como texto |
 | HU-22 | Procedencia y calidad | Validación Zod, Vitest y restricción SQL |
 | HU-23 | Declaración pública | `/productos/[id]` y exclusión de suspendidos |
