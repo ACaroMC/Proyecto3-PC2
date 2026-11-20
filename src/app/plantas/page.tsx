@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Foto, fotoPlanta } from '@/components/foto';
 import { datos, type Planta } from '@/lib/datos';
 import { publicClient } from '@/lib/supabase';
 import { busqueda } from '@/lib/validacion';
@@ -16,6 +17,7 @@ export default async function Plantas({ searchParams }: PageProps<'/plantas'>) {
       <button className="button primary">Buscar</button>{q && <Link href="/plantas">Limpiar búsqueda</Link>}
     </form>
     {plantas.length ? <div className="grid cards">{plantas.map((planta) => <article key={planta.id} className="surface stack">
+      <Foto imagen={fotoPlanta(planta.cientifico)} />
       <h2><Link href={'/plantas/' + planta.id}>{planta.nombre}</Link></h2><p><i>{planta.cientifico}</i></p><p className="muted">{planta.usos}</p>
     </article>)}</div> : <p className="surface" role="status">Sin resultados. Prueba con otro nombre o uso.</p>}
   </div>;

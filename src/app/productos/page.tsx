@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Foto, fotoProducto } from '@/components/foto';
 import { obtenerOfertas, soles } from '@/lib/datos';
 import { busqueda } from '@/lib/validacion';
 
@@ -21,6 +22,7 @@ export default async function Comparar({ searchParams }: PageProps<'/productos'>
     {resultados.length ? <>
       <p role="status" className="muted">{resultados.length} {resultados.length === 1 ? 'oferta' : 'ofertas'} · de menor a mayor precio</p>
       <ul className="list offers">{resultados.map((oferta) => <li key={oferta.id} className="surface offer">
+        <Foto imagen={fotoProducto(oferta.nombre, oferta.presentacion)} formato="miniatura" />
         <div className="stack">
           <h3><Link href={'/productos/' + oferta.id}>{oferta.nombre}</Link></h3>
           <p className="muted">{oferta.presentacion}</p>
