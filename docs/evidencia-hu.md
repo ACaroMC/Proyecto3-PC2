@@ -1,0 +1,32 @@
+# Evidencia de las historias
+
+La columna de evidencia señala el código o la prueba que cubre cada historia. Los ensayos de RLS son reproducibles con PostgreSQL aislado y `supabase/tests/rls.sql`.
+
+| HU | Implementación | Evidencia |
+| --- | --- | --- |
+| HU-01 | Flujo por ramas y PR | [Ramas y PR del repositorio](https://github.com/ACaroMC/Proyecto3-PC2/pulls?q=is%3Apr) |
+| HU-02 | CI desde lockfile | `npm run check` y job `ci` |
+| HU-03 | Gitleaks, auditoría completa y RLS | Job `seguridad` |
+| HU-04 | Migraciones y Vercel desde main | Job `deploy` en `pipeline.yml` |
+| HU-05 | Registro comprador o hierbero | `/registro`, Vitest y trigger probado en SQL |
+| HU-06 | Inicio, cierre y panel por rol | `/ingresar`, `/panel` y Vitest |
+| HU-07 | RLS y permisos por rol | Migración inicial y ensayo SQL |
+| HU-08 | Alta/edición del puesto | `/panel/hierbero`, Vitest y RLS |
+| HU-09 | Coordenadas en mapa | `ElegirUbicacion`, validación y bloqueo SQL |
+| HU-10 | Filtros del directorio | `/puestos` y exclusión SQL de suspendidos |
+| HU-11 | Ficha comercial y datos reservados | `/puestos/[id]` y grants SQL por columna |
+| HU-12 | Mapa público | Marcadores con enlace y filtro de coordenadas |
+| HU-13 | Alta de ofertas y precio válido | Panel, Vitest y RLS |
+| HU-14 | Cambio de precio y stock | Ensayo SQL hierbero → comprador |
+| HU-15 | Búsqueda parametrizada | RPC `buscar_ofertas`, SQL y Vitest |
+| HU-16 | Comparación en soles | `/productos` y prueba SQL de orden |
+| HU-17 | Eliminación de ofertas propias | Panel y bloqueo de producto ajeno en SQL |
+| HU-18 | Alta y edición de fichas | Panel de administración, Vitest y políticas SQL |
+| HU-19 | Aviso y publicación | `/plantas/[id]` y exclusión de borradores en SQL |
+| HU-20 | Búsqueda de fichas | RPC `buscar_plantas` y prueba de entrada como texto |
+| HU-21 | Vincular y quitar ficha | Formulario, Vitest y RLS |
+| HU-22 | Procedencia y calidad | Validación Zod, Vitest y restricción SQL |
+| HU-23 | Declaración pública | `/productos/[id]` y exclusión de suspendidos |
+| HU-24 | Verificación y revocación | Panel, RPC y prueba de autoverificación denegada |
+| HU-25 | Reseña y promedio | Ficha del puesto, Vitest y ensayo SQL |
+| HU-26 | Moderación | Panel y prueba SQL de acceso y ocultamiento |
