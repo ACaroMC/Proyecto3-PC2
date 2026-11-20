@@ -106,7 +106,7 @@ jobs:
           SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
         run: |
           npx --no-install supabase link --project-ref "$SUPABASE_PROJECT_ID" --password "$SUPABASE_DB_PASSWORD"
-          npx --no-install supabase db push --remote --yes --password "$SUPABASE_DB_PASSWORD"
+          npx --no-install supabase db push --linked --yes --password "$SUPABASE_DB_PASSWORD"
       - name: Desplegar en Vercel
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
